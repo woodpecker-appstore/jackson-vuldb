@@ -25,9 +25,9 @@ public class JacksonVulPlugin implements IVulPlugin {
         callbacks.setVulAuthor("");
         callbacks.setVulSeverity("high");
         callbacks.setVulScope("");
-        callbacks.setVulDescription("");
+        callbacks.setVulDescription("Jackson反序列化漏洞均需要new ObjectMapper().enableDefaultTyping();");
         callbacks.setVulCategory("综合");
-        callbacks.setVulProduct("fastjson");
+        callbacks.setVulProduct("jackson");
         List<IPayloadGenerator> payloadGeneratorList = new ArrayList<IPayloadGenerator>();
         payloadGeneratorList.add(new JndiInjectPayloadGenerator());
         payloadGeneratorList.add(new LocalPayloadGenerator());
